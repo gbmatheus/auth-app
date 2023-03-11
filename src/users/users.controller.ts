@@ -11,16 +11,21 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UsersService } from './users.service';
+import { User } from './interfaces/user.interface';
 
 @Controller('users')
 export class UsersController {
+  constructor(private userService: UsersService) {}
+
   @Get()
-  async findAll(): Promise<any[]> {
-    return [];
+  async findAll(): Promise<User[]> {
+    return this.userService.findAll();
   }
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<any> {
+    this.userService.create(createUserDto);
     delete createUserDto.confirmPassword;
     return { ...createUserDto };
   }
