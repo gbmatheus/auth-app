@@ -8,4 +8,4 @@ import { UsersController } from './users.controller';
   // exports: [] // * para expor um provider entre os modulos que importam o modulo
   // provider expostos internamente no modulo
 })
-export class UserModule {}
+export class UsersModule {}
