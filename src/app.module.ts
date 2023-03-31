@@ -9,9 +9,10 @@ import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { AppService } from './app.service';
 import { UsersModule } from './users/user.module';
 import { UsersController } from './users/users.controller';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [UsersModule],
+  imports: [ConfigModule.forRoot(), UsersModule],
   controllers: [AppController],
   providers: [AppService],
 })
