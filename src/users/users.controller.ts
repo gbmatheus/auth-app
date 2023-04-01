@@ -25,9 +25,9 @@ export class UsersController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<any> {
-    this.userService.create(createUserDto);
-    delete createUserDto.confirmPassword;
-    return { ...createUserDto };
+    const user = await this.userService.create(createUserDto);
+    console.log(user);
+    return { user };
   }
 
   @Get(':id')
