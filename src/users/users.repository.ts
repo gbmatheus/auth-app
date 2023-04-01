@@ -15,31 +15,28 @@ export class UserRepository {
     return this.prisma.user.findMany();
   }
 
-  async findOneByEmail(params: { email: string }): Promise<User> {
-    const { email } = params;
+  async findOne(params: { where: Prisma.UserWhereUniqueInput }): Promise<User> {
+    const { where } = params;
     return this.prisma.user.findUnique({
-      where: {
-        email,
-      },
+      where,
     });
   }
 
-  async update(
-    email: string,
-    params: { data: Prisma.UserUpdateInput },
-  ): Promise<User> {
-    const { data } = params;
+  async update(params: {
+    data: Prisma.UserUpdateInput;
+    where: Prisma.UserWhereUniqueInput;
+  }): Promise<User> {
+    const { data, where } = params;
     return this.prisma.user.update({
-      where: {
-        email,
-      },
+      where,
       data,
     });
   }
 
-  async remove(email: string): Promise<void> {
-    this.prisma.user.delete({
-      where: { email },
+  async remove(params: { where: Prisma.UserWhereUniqueInput }): Promise<User> {
+    const { where } = params;
+    return this.prisma.user.delete({
+      where,
     });
   }
 }
