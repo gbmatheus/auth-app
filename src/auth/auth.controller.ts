@@ -7,12 +7,14 @@ import {
   Get,
   Request,
   UseGuards,
+  Req
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SingInDto } from './dto/sing-in.dto';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
+import { AuthGuard } from '@nestjs/passport';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -27,5 +29,17 @@ export class AuthController {
   @Get('loged')
   getProfileJwt(@Request() req) {
     return req.user;
+  }
+
+  @Get('google')
+  @UseGuards(AuthGuard('google'))
+  singInGoogle(@Request() req) {
+    return;
+  }
+
+  @Get('google/redirect')
+  @UseGuards(AuthGuard('google'))
+  singInGoogleRedirect(@Req() req) {
+    return this.authService.singInGoogle(req);
   }
 }

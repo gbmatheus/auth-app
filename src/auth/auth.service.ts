@@ -31,4 +31,13 @@ export class AuthService {
       access_token: await this.jwtService.signAsync(payload),
     };
   }
+
+  async singInGoogle(req): Promise<any> {
+    if (!req.user) return 'No user from google';
+
+    return {
+      message: 'User information from google',
+      user: req.user,
+    };
+  }
 }
