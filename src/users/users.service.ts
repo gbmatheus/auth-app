@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { User as IUser } from './interfaces/user.interface';
 import { User } from '@prisma/client';
-import { UserRepository } from './users.repository';
+import { UsersRepository } from './users.repository';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(private readonly userRepository: UsersRepository) {}
 
   async create(user: IUser): Promise<User> {
     const { password } = user;
@@ -21,14 +21,15 @@ export class UsersService {
 
     delete user['confirmPassword'];
 
-    const hash = await bcrypt.hash(password, Number(process.env.BCRYPT_SALT));
-    console.log({ hash });
-    user.password = hash;
+    // const hash = await bcrypt.hash(password, Number(process.env.BCRYPT_SALT));
+    // console.log({ hash });
+    // user.password = hash;
 
     const userCreated = await this.userRepository.create({
       data: {
         email: user.email,
-        password: hash,
+        // password: hash,
+        password: password,
       },
     });
 
