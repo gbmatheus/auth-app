@@ -9,8 +9,8 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SingInDto } from './dto/sing-in-dto';
-import { AuthGuard } from './auth.guard';
+import { SingInDto } from './dto/sing-in.dto';
+import { JwtAuthGuard } from './guard/jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -19,14 +19,13 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   singIn(@Body() singInDto: SingInDto) {
-    // jwt
     return this.authService.singIn(singInDto);
   }
 
-  // @UseGuards(AuthGuard)
-  // @HttpCode(HttpStatus.OK)
-  // @Get('profile')
-  // getProfile(@Request() req) {
-  //   return req.user;
-  // }
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
+  @Get('loged')
+  getProfileJwt(@Request() req) {
+    return req.user;
+  }
 }
